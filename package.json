@@ -21,6 +21,12 @@
   },
   "main": "./dist/extension.js",
   "contributes": {
+    "snippets": [
+      {
+        "language": "javascript",
+        "path": "./snippets/javascript-snippets.code-snippets"
+      }
+    ],
     "viewsContainers": {
       "activitybar": [
         {
@@ -55,8 +61,66 @@
         "command": "infinite-poc.dialog-modal-message",
         "title": "Show Dialog Modal Message",
         "category": "ipoc"
+      },
+      {
+        "command": "ipoc.print.explorer.menu",
+        "title": "Print text in output channel",
+        "category": "ipoc"
+      },
+      {
+        "command": "ipoc.print.editor.menu",
+        "title": "Print text in output channel",
+        "category": "ipoc"
       }
-    ]
+    ],
+    "submenus": [
+      {
+        "id": "ipoc.editor.menu",
+        "label": "IPOC from editor",
+        "icon": "$(code)"
+      },
+      {
+        "id": "ipoc.explorer.menu",
+        "label": "IPOC from explorer",
+        "icon": "$(code)"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "ipoc.print.explorer.menu",
+          "when": "false"
+        }
+      ],
+      "explorer/context": [
+        {
+          "submenu": "ipoc.explorer.menu",
+          "group": "navigation@1",
+          "when": "resourceLangId == javascript"
+        }
+      ],
+      "ipoc.explorer.menu":[
+        {
+          "command": "ipoc.print.explorer.menu",
+          "group": "commands@1",
+          "when": "resourceLangId == javascript"
+        }
+      ],
+      "editor/context": [
+        {
+          "submenu": "ipoc.editor.menu",
+          "group": "navigation@1",
+          "when": "resourceLangId == javascript"
+        }
+      ],
+      "ipoc.editor.menu":[
+        {
+          "command": "ipoc.print.editor.menu",
+          "group": "commands@1",
+          "when": "resourceLangId == javascript"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
