@@ -21,7 +21,7 @@ This extension will demonstrate most of the vs code extension capabilies.
     - `Disable in Prod env`
     - `Open/Show in dev env`
 - Snippets
-- Add extension
+    - `Example for adding method snippets`
 - Create Sidebar webview panel
     - Add HTML elements like `button` / `Input box`
     - Transfer data b/w webview & extension
@@ -33,7 +33,8 @@ This extension will demonstrate most of the vs code extension capabilies.
     - `editor`
 - Select all/specific text from editor
 - Create output channel
-- Set Context variable
+- Set Context variable & use it in `package.json`
+    - `Hide commands from commandPalette`
 - Progress Bar
 - Extension cache
     - `Set`
