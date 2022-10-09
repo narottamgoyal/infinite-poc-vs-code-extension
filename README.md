@@ -1,8 +1,8 @@
 # Infinite POC for Visual Studio Code
 
-This extension will demonstrate most of the vs code extension capabilies.
+This extension will demonstrate most of the vs code extension capabilities.
 
-## Capabilies
+## Topics
 
 - Simple VSCODE Extension POC App
 - Create Commands
