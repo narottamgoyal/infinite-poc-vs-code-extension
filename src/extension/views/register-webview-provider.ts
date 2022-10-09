@@ -148,8 +148,8 @@ export class SidebarWebViewProvider implements WebviewViewProvider {
               <button type="button" class="btn-second">save in cache</button><br>
               <button type="button" class="btn-third">save in secret storage</button><br>
               <button type="button" class="btn-fourth">Open Center Panel</button><br>
-              <button type="button" class="btn-fifth">Send data to Center Panel</button><br>
-              <button type="button" class="btn-eightth">open folder</button><br>
+              <button type="button" class="btn-fifth">Send data via command</button><br>
+              <button type="button" class="btn-eightth">Open folder</button><br>
               <button type="button" class="btn-sixth">Create temp document</button><br>
               <button type="button" class="btn-seventh">Open physical document</button><br>
               <button type="button" class="btn-nineth">show diff</button><br>
