@@ -5,8 +5,8 @@ This extension will demonstrate most of the vs code extension capabilies.
 ## Capabilies
 
 - Simple VSCODE Extension POC App
-- ActivationEvents entry
 - Create Commands
+- ActivationEvents entry
 - Show message
     - `Info message`
     - `Error message`
@@ -17,9 +17,6 @@ This extension will demonstrate most of the vs code extension capabilies.
     - `String`
     - `Array`
     - `Enum for dropdown selection`
-- Webview developer Tool
-    - `Disable in Prod env`
-    - `Open/Show in dev env`
 - Snippets
     - `Example for adding method snippets`
 - Create Sidebar webview panel
@@ -28,6 +25,9 @@ This extension will demonstrate most of the vs code extension capabilies.
 - Create Center panel
     - Add HTML elements like `button` / `Input box`
     - Transfer data b/w webview & extension
+- Webview developer Tool
+    - `Disable in Prod env`
+    - `Open/Show in dev env`
 - Create context menu
     - `explorer`
     - `editor`
