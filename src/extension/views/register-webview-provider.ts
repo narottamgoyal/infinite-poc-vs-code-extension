@@ -1,4 +1,4 @@
-import { CancellationToken, commands, ExtensionContext, OutputChannel, Uri, Webview, WebviewView, WebviewViewProvider, WebviewViewResolveContext, window } from "vscode";
+import { CancellationToken, commands, ExtensionContext, OutputChannel, ProgressLocation, Uri, Webview, WebviewView, WebviewViewProvider, WebviewViewResolveContext, window, workspace } from "vscode";
 import { openBrowser } from "../features/register-callback-request";
 import { readSelectedOrAllText } from "../features/register-commands";
 import { getNonce } from "../util";
@@ -31,7 +31,7 @@ export class SidebarWebViewProvider implements WebviewViewProvider {
 
         webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
 
-        webviewView.webview.onDidReceiveMessage((data) => {
+        webviewView.webview.onDidReceiveMessage(async (data) => {
             switch (data.type) {
                 case "btn-first": {
                     openBrowser();
@@ -53,6 +53,58 @@ export class SidebarWebViewProvider implements WebviewViewProvider {
                 }
                 case "btn-fifth": {
                     commands.executeCommand('ipoc.send.data', { type: 'ipoc.send.data.key', data: data.value });
+                    break;
+                }
+
+                case "btn-sixth": {
+                    await workspace.openTextDocument({ language: 'javascript', content: '// start writting your script from here...' })
+                        .then(e => window.showTextDocument(e));
+                    break;
+                }
+                case "btn-seventh": {
+                    await window.showTextDocument(Uri.file(data.value));
+                    break;
+                }
+                case "btn-eightth": {
+                    await commands.executeCommand('vscode.openFolder', Uri.file(data.value));
+                    break;
+                }
+                case "btn-nineth": {
+                    const files = data.value.split(',');
+                    await commands.executeCommand('vscode.diff', Uri.file(files[0]), Uri.file(files[1]), 'Left <-> Right');
+                    break;
+                }
+                case "btn-tenth": {
+                    let isCancelled = false;
+                    window.withProgress({
+                        title: 'Progress example',
+                        location: ProgressLocation.Notification,
+                        cancellable: true
+                    }, async (progress, cancellationToken) => {
+                        cancellationToken.onCancellationRequested(() => {
+                            isCancelled = true;
+                        });
+                        const p = new Promise<void>(resolve => {
+                            progress.report({ increment: 0, message: 'started' });
+
+                            if (!isCancelled)
+                                setTimeout(() => {
+                                    progress.report({ increment: 50, message: 'completed 50%' });
+                                }, 1000);
+
+                            if (!isCancelled)
+                                setTimeout(() => {
+                                    progress.report({ increment: 75, message: 'completed 75%' });
+                                }, 3000);
+
+                            if (!isCancelled)
+                                setTimeout(() => {
+                                    progress.report({ increment: 100, message: 'completed 100%' });
+                                    resolve();
+                                }, 4000);
+                        });
+                        return p;
+                    });
                     break;
                 }
             }
@@ -92,6 +144,11 @@ export class SidebarWebViewProvider implements WebviewViewProvider {
               <button type="button" class="btn-third">save in secret storage</button><br>
               <button type="button" class="btn-fourth">Open Center Panel</button><br>
               <button type="button" class="btn-fifth">Send data to Center Panel</button><br>
+              <button type="button" class="btn-eightth">open folder</button><br>
+              <button type="button" class="btn-sixth">Create temp document</button><br>
+              <button type="button" class="btn-seventh">Open physical document</button><br>
+              <button type="button" class="btn-nineth">show diff</button><br>
+              <button type="button" class="btn-tenth">show progress bar</button><br>
               <script nonce="${nonce}" src="${scriptUri}"></script>
            </body>
         </html>`;

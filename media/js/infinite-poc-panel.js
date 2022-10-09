@@ -7,12 +7,23 @@
     const btnthird = document.querySelector('.btn-third');
     const btnfourth = document.querySelector('.btn-fourth');
     const btnfifth = document.querySelector('.btn-fifth');
+    const btnsixth = document.querySelector('.btn-sixth');
+    const btnseventh = document.querySelector('.btn-seventh');
+    const btneightth = document.querySelector('.btn-eightth');
+    const btnnineth = document.querySelector('.btn-nineth');
+    const btntenth = document.querySelector('.btn-tenth');
+
 
     btnfirst.addEventListener('click', firstBtnClicked);
     btnsecond.addEventListener('click', secondBtnClicked);
     btnthird.addEventListener('click', thirdBtnClicked);
     btnfourth.addEventListener('click', fourthBtnClicked);
     btnfifth.addEventListener('click', fifthBtnClicked);
+    btnsixth.addEventListener('click', sixthBtnClicked);
+    btnseventh.addEventListener('click', seventhBtnClicked);
+    btneightth.addEventListener('click', eightthBtnClicked);
+    btnnineth.addEventListener('click', ninethBtnClicked);
+    btntenth.addEventListener('click', tenthBtnClicked);
 
     function firstBtnClicked() {
         vscode.postMessage({
@@ -45,6 +56,41 @@
     async function fifthBtnClicked() {
         vscode.postMessage({
             type: 'btn-fifth',
+            value: txtbox.value
+        });
+    }
+
+    async function sixthBtnClicked() {
+        vscode.postMessage({
+            type: 'btn-sixth',
+            value: txtbox.value
+        });
+    }
+
+    async function seventhBtnClicked() {
+        vscode.postMessage({
+            type: 'btn-seventh',
+            value: txtbox.value
+        });
+    }
+
+    async function eightthBtnClicked() {
+        vscode.postMessage({
+            type: 'btn-eightth',
+            value: txtbox.value
+        });
+    }
+
+    async function ninethBtnClicked() {
+        vscode.postMessage({
+            type: 'btn-nineth',
+            value: txtbox.value
+        });
+    }
+
+    function tenthBtnClicked() {
+        vscode.postMessage({
+            type: 'btn-tenth',
             value: txtbox.value
         });
     }
