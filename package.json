@@ -64,7 +64,7 @@
       },
       {
         "command": "ipoc.print.editor.menu",
-        "title": "Print text in output channel",
+        "title": "Send & Print text in output channel",
         "category": "ipoc"
       },
       {
@@ -86,6 +86,11 @@
         "command": "ipoc.show.center.panel",
         "title": "Show center panel",
         "category": "ipoc"
+      },
+      {
+        "command": "ipoc.send.data",
+        "title": "transfer Data From Ts To Ui",
+        "category": "ipoc"
       }
     ],
     "submenus": [
@@ -104,6 +109,14 @@
       "commandPalette": [
         {
           "command": "ipoc.print.explorer.menu",
+          "when": "false"
+        },
+        {
+          "command": "ipoc.print.editor.menu",
+          "when": "false"
+        },
+        {
+          "command": "ipoc.send.data",
           "when": "false"
         }
       ],
@@ -132,7 +145,7 @@
         {
           "command": "ipoc.print.editor.menu",
           "group": "commands@1",
-          "when": "resourceLangId == javascript"
+          "when": "isPrintContextMenu && resourceLangId == javascript"
         }
       ]
     },

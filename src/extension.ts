@@ -1,4 +1,4 @@
-import { ExtensionContext, window } from 'vscode';
+import { commands, ExtensionContext, window } from 'vscode';
 import { registerCacheCommand } from './extension/features/cache-operation';
 import { registerCallbackRequest } from './extension/features/register-callback-request';
 import { registerCommands } from './extension/features/register-commands';
@@ -8,13 +8,15 @@ import { registerCenterPanel } from './extension/views/register-center-panel';
 import { registerWebViewProvider } from "./extension/views/register-webview-provider";
 
 export function activate(context: ExtensionContext) {
-	registerCommands(context, window.createOutputChannel('InfinitePOC'));
+	const op = window.createOutputChannel('InfinitePOC');
+	registerCommands(context, op);
 	registerCacheCommand(context);
 	registerWelcomeMessage(context);
-	registerWebViewProvider(context);
+	registerWebViewProvider(context, op);
 	registerDevToolCommand(context);
 	registerCallbackRequest(context);
 	registerCenterPanel(context);
+	commands.executeCommand('setContext', 'isPrintContextMenu', true);
 }
 
 export function deactivate() { }

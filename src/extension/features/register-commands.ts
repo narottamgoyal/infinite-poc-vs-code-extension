@@ -16,24 +16,22 @@ export function registerCommands(context: ExtensionContext, op: OutputChannel) {
     context.subscriptions.push(commands.registerCommand('ipoc.print.explorer.menu', () => {
         readSelectedOrAllText(op);
     }));
-
-    context.subscriptions.push(commands.registerCommand('ipoc.print.editor.menu', () => {
-        readSelectedOrAllText(op);
-    }));
 }
 
-function readSelectedOrAllText(op: OutputChannel) {
+export function readSelectedOrAllText(op: OutputChannel) {
     op.clear();
     const { activeTextEditor } = window;
+    let txt = '';
     if (!activeTextEditor || activeTextEditor.document.languageId !== 'javascript') {
         op.appendLine('no active found');
     } else {
 
-        let txt = activeTextEditor.document.getText(activeTextEditor.selection);
+        txt = activeTextEditor.document.getText(activeTextEditor.selection);
         if (!txt) txt = activeTextEditor.document.getText();
         op.appendLine(txt);
     }
     op.show();
+    return txt;
 }
 
 function processUserSelection(result: string | undefined): any {

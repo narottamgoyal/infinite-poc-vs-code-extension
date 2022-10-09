@@ -1,20 +1,27 @@
-import { CancellationToken, ExtensionContext, Uri, Webview, WebviewView, WebviewViewProvider, WebviewViewResolveContext, window } from "vscode";
+import { CancellationToken, commands, ExtensionContext, OutputChannel, Uri, Webview, WebviewView, WebviewViewProvider, WebviewViewResolveContext, window } from "vscode";
 import { openBrowser } from "../features/register-callback-request";
+import { readSelectedOrAllText } from "../features/register-commands";
 import { getNonce } from "../util";
+import { CenterPanel } from "./register-center-panel";
 
-export function registerWebViewProvider(context: ExtensionContext) {
+export function registerWebViewProvider(context: ExtensionContext, op: OutputChannel) {
     const provider = new SidebarWebViewProvider(context.extensionUri, context);
     context.subscriptions.push(window.registerWebviewViewProvider('infinite-poc-sidebar-panel', provider));
+
+    context.subscriptions.push(commands.registerCommand('ipoc.print.editor.menu', () => {
+        const txt = readSelectedOrAllText(op);
+        provider.view?.webview.postMessage({ type: 'transferDataFromTsToUi', data: txt });
+    }));
 }
 
 export class SidebarWebViewProvider implements WebviewViewProvider {
     constructor(private readonly _extensionUri: Uri, public extensionContext: ExtensionContext) { }
-    _view?: WebviewView;
+    view?: WebviewView;
 
     resolveWebviewView(webviewView: WebviewView,
         webViewContext: WebviewViewResolveContext,
         token: CancellationToken) {
-        this._view = webviewView;
+        this.view = webviewView;
 
         webviewView.webview.options = {
             enableScripts: true,
@@ -28,7 +35,6 @@ export class SidebarWebViewProvider implements WebviewViewProvider {
             switch (data.type) {
                 case "btn-first": {
                     openBrowser();
-                    window.showInformationMessage(data.value);
                     break;
                 }
                 case 'btn-second': {
@@ -39,6 +45,14 @@ export class SidebarWebViewProvider implements WebviewViewProvider {
                 case 'btn-third': {
                     this.extensionContext.secrets.store('ipocCacheKey', data.value);
                     window.showInformationMessage('Value saved in SecretStorage: ' + data.value);
+                    break;
+                }
+                case "btn-fourth": {
+                    CenterPanel.getInstance(this.extensionContext.extensionUri, this.extensionContext);
+                    break;
+                }
+                case "btn-fifth": {
+                    commands.executeCommand('ipoc.send.data', { type: 'ipoc.send.data.key', data: data.value });
                     break;
                 }
             }
@@ -76,6 +90,8 @@ export class SidebarWebViewProvider implements WebviewViewProvider {
               <input type="text" class="txt-box" id="ipocvalueid" name="ipocvaluename"><br>
               <button type="button" class="btn-second">save in cache</button><br>
               <button type="button" class="btn-third">save in secret storage</button><br>
+              <button type="button" class="btn-fourth">Open Center Panel</button><br>
+              <button type="button" class="btn-fifth">Send data to Center Panel</button><br>
               <script nonce="${nonce}" src="${scriptUri}"></script>
            </body>
         </html>`;

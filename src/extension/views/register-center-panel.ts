@@ -1,10 +1,17 @@
 import { commands, ExtensionContext, Uri, ViewColumn, Webview, WebviewPanel, window } from "vscode";
+import { openBrowser } from "../features/register-callback-request";
 import { getNonce } from "../util";
 
 export function registerCenterPanel(context: ExtensionContext) {
     context.subscriptions.push(
-        commands.registerCommand('ipoc.show.center.panel', async () => {
+        commands.registerCommand('ipoc.show.center.panel', () => {
             CenterPanel.getInstance(context.extensionUri, context);
+        })
+    );
+
+    context.subscriptions.push(
+        commands.registerCommand('ipoc.send.data', (data) => {
+            window.showInformationMessage('ipoc.send.data: ' + data.data);
         })
     );
 }
@@ -12,7 +19,7 @@ export function registerCenterPanel(context: ExtensionContext) {
 export class CenterPanel {
     public static centerPanel: CenterPanel | undefined;
     private static readonly viewType = "CenterPanel";
-    private constructor(private readonly webviewPanel: WebviewPanel, private readonly _extensionUri: Uri, public extensionContext: ExtensionContext) {
+    private constructor(public readonly webviewPanel: WebviewPanel, private readonly _extensionUri: Uri, public extensionContext: ExtensionContext) {
         this.updateView();
     }
 
@@ -45,6 +52,25 @@ export class CenterPanel {
     private async updateView() {
         const webview = this.webviewPanel.webview;
         this.webviewPanel.webview.html = this._getHtmlForWebview(webview);
+
+        this.webviewPanel.webview.onDidReceiveMessage((data) => {
+            switch (data.type) {
+                case "btn-first": {
+                    openBrowser();
+                    break;
+                }
+                case 'btn-second': {
+                    this.extensionContext.globalState.update('ipocCacheKey', data.value);
+                    window.showInformationMessage('Value saved in cache: ' + data.value);
+                    break;
+                }
+                case 'btn-third': {
+                    this.extensionContext.secrets.store('ipocCacheKey', data.value);
+                    window.showInformationMessage('Value saved in SecretStorage: ' + data.value);
+                    break;
+                }
+            }
+        });
     }
 
     private _getHtmlForWebview(webview: Webview) {
