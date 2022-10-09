@@ -66,6 +66,21 @@
         "command": "ipoc.print.editor.menu",
         "title": "Print text in output channel",
         "category": "ipoc"
+      },
+      {
+        "command": "ipoc.show.cache",
+        "title": "Show cache",
+        "category": "ipoc"
+      },
+      {
+        "command": "ipoc.clear.cache",
+        "title": "Clear Cache",
+        "category": "ipoc"
+      },
+      {
+        "command": "ipoc.show.secret.storage",
+        "title": "Show value from Secret Storage",
+        "category": "ipoc"
       }
     ],
     "submenus": [

@@ -1,13 +1,13 @@
-import { CancellationToken, Uri, Webview, WebviewView, WebviewViewProvider, WebviewViewResolveContext, window } from "vscode";
-import { openBrowser } from "../commonds/register-callback-request";
+import { CancellationToken, ExtensionContext, Uri, Webview, WebviewView, WebviewViewProvider, WebviewViewResolveContext, window } from "vscode";
+import { openBrowser } from "../features/register-callback-request";
 import { getNonce } from "../util";
 
 export class InfinitePocViewProvider implements WebviewViewProvider {
-    constructor(private readonly _extensionUri: Uri) { }
+    constructor(private readonly _extensionUri: Uri, public extensionContext: ExtensionContext) { }
     _view?: WebviewView;
 
     resolveWebviewView(webviewView: WebviewView,
-        context: WebviewViewResolveContext,
+        webViewContext: WebviewViewResolveContext,
         token: CancellationToken) {
         this._view = webviewView;
 
@@ -25,6 +25,16 @@ export class InfinitePocViewProvider implements WebviewViewProvider {
                 case "btn-first": {
                     openBrowser();
                     window.showInformationMessage(data.value);
+                    break;
+                }
+                case 'btn-second': {
+                    this.extensionContext.globalState.update('ipocCacheKey', data.value);
+                    window.showInformationMessage('Value saved in cache: ' + data.value);
+                    break;
+                }
+                case 'btn-third': {
+                    this.extensionContext.secrets.store('ipocCacheKey', data.value);
+                    window.showInformationMessage('Value saved in SecretStorage: ' + data.value);
                     break;
                 }
             }
@@ -58,7 +68,10 @@ export class InfinitePocViewProvider implements WebviewViewProvider {
            </head>
            <body>
               <div>Action buttons:</div>
-              <button type="button" class="btn-first">Open Browser</button>
+              <button type="button" class="btn-first">Open Browser</button><br>
+              <input type="text" class="txt-box" id="ipocvalueid" name="ipocvaluename"><br>
+              <button type="button" class="btn-second">save in cache</button><br>
+              <button type="button" class="btn-third">save in secret storage</button><br>
               <script nonce="${nonce}" src="${scriptUri}"></script>
            </body>
         </html>`;
