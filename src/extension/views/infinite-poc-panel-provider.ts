@@ -58,7 +58,7 @@ export class InfinitePocViewProvider implements WebviewViewProvider {
            </head>
            <body>
               <div>Action buttons:</div>
-              <button type="button" class="btn-first">Click ME!</button>
+              <button type="button" class="btn-first">Open Browser</button>
               <script nonce="${nonce}" src="${scriptUri}"></script>
            </body>
         </html>`;

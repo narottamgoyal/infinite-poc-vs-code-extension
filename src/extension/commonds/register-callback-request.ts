@@ -1,8 +1,8 @@
-import { commands, ExtensionContext, Uri, window } from "vscode";
+import { commands, ExtensionContext, Uri, window, workspace } from "vscode";
 
 /**
  * Register callback URL via registerUriHandler.
- * Another way to start server on some port and wait for the callback request
+ * Another way to start server on some port and wait for the callback request on that URL
  * and then stop the server.
  */
 export function registerCallbackRequest(context: ExtensionContext) {
@@ -25,5 +25,6 @@ export function registerCallbackRequest(context: ExtensionContext) {
 }
 
 export function openBrowser() {
-    commands.executeCommand("vscode.open", Uri.parse(`https://www.google.com`));
+    const site = workspace.getConfiguration().get<string[]>('ipoc.open.browser.sites')
+    commands.executeCommand("vscode.open", Uri.parse(site ? site[0] : `https://www.google.com`));
 }

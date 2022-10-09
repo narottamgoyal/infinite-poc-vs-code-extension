@@ -13,7 +13,7 @@
   ],
   "activationEvents": [
     "*",
-    "onCommand:infinite-poc.info-message"
+    "onCommand:infinite-poc.dialog-modal-message"
   ],
   "repository": {
     "type": "git",
@@ -48,18 +48,13 @@
     },
     "commands": [
       {
-        "command": "infinite-poc.error-message",
-        "title": "Show Error Message",
-        "category": "ipoc"
-      },
-      {
-        "command": "infinite-poc.info-message",
-        "title": "Show Info Message",
-        "category": "ipoc"
-      },
-      {
         "command": "infinite-poc.dialog-modal-message",
         "title": "Show Dialog Modal Message",
+        "category": "ipoc"
+      },
+      {
+        "command": "infinite-poc.ask-user",
+        "title": "Ask user a question?",
         "category": "ipoc"
       },
       {
@@ -120,6 +115,34 @@
           "when": "resourceLangId == javascript"
         }
       ]
+    },
+    "configuration": {
+        "title": "Infinite POC",
+        "properties": {
+          "ipoc.welcom.message.enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "enable/disable welcome message"
+          },
+          "ipoc.welcom.message.emoji": {
+            "type": "string",
+            "enum": ["👋", "😄", "😎"],
+            "default": "👋",
+            "description": "select emoji"
+        },
+        "ipoc.welcom.message.string": {
+          "type": "string",
+          "description": "please enter welcome message",
+          "default": "Welcome to the ipoc extension!"
+        },
+        "ipoc.open.browser.sites": {
+        "type": "array",
+        "items": {
+          "type": "string"
+          },
+          "default":["https://www.youtube.com/c/InfinitePOC", "https://www.google.com/"]
+        }
+      }
     }
   },
   "scripts": {
