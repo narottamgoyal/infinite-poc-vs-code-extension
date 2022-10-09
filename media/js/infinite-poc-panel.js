@@ -12,6 +12,7 @@
     const btneightth = document.querySelector('.btn-eightth');
     const btnnineth = document.querySelector('.btn-nineth');
     const btntenth = document.querySelector('.btn-tenth');
+    const btneleventh = document.querySelector('.btn-eleventh');
 
 
     btnfirst.addEventListener('click', firstBtnClicked);
@@ -24,6 +25,7 @@
     btneightth.addEventListener('click', eightthBtnClicked);
     btnnineth.addEventListener('click', ninethBtnClicked);
     btntenth.addEventListener('click', tenthBtnClicked);
+    btneleventh.addEventListener('click', eleventhBtnClicked);
 
     function firstBtnClicked() {
         vscode.postMessage({
@@ -91,6 +93,13 @@
     function tenthBtnClicked() {
         vscode.postMessage({
             type: 'btn-tenth',
+            value: txtbox.value
+        });
+    }
+
+    function eleventhBtnClicked() {
+        vscode.postMessage({
+            type: 'btn-eleventh',
             value: txtbox.value
         });
     }

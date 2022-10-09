@@ -2,6 +2,7 @@ import { CancellationToken, commands, ExtensionContext, OutputChannel, ProgressL
 import { openBrowser } from "../features/register-callback-request";
 import { readSelectedOrAllText } from "../features/register-commands";
 import { getNonce } from "../util";
+import { CustomEvent } from "./custom-event";
 import { CenterPanel } from "./register-center-panel";
 
 export function registerWebViewProvider(context: ExtensionContext, op: OutputChannel) {
@@ -107,6 +108,10 @@ export class SidebarWebViewProvider implements WebviewViewProvider {
                     });
                     break;
                 }
+                case "btn-eleventh": {
+                    CustomEvent.customEvent.publish(data.value);
+                    break;
+                }
             }
         });
     }
@@ -149,6 +154,7 @@ export class SidebarWebViewProvider implements WebviewViewProvider {
               <button type="button" class="btn-seventh">Open physical document</button><br>
               <button type="button" class="btn-nineth">show diff</button><br>
               <button type="button" class="btn-tenth">show progress bar</button><br>
+              <button type="button" class="btn-eleventh">publish data via event</button><br>
               <script nonce="${nonce}" src="${scriptUri}"></script>
            </body>
         </html>`;
