@@ -1,44 +1,50 @@
-import { CancellationToken, ExtensionContext, Uri, Webview, WebviewView, WebviewViewProvider, WebviewViewResolveContext, window } from "vscode";
-import { openBrowser } from "../features/register-callback-request";
+import { commands, ExtensionContext, Uri, ViewColumn, Webview, WebviewPanel, window } from "vscode";
 import { getNonce } from "../util";
 
-export class InfinitePocViewProvider implements WebviewViewProvider {
-    constructor(private readonly _extensionUri: Uri, public extensionContext: ExtensionContext) { }
-    _view?: WebviewView;
+export function registerCenterPanel(context: ExtensionContext) {
+    context.subscriptions.push(
+        commands.registerCommand('ipoc.show.center.panel', async () => {
+            CenterPanel.getInstance(context.extensionUri, context);
+        })
+    );
+}
 
-    resolveWebviewView(webviewView: WebviewView,
-        webViewContext: WebviewViewResolveContext,
-        token: CancellationToken) {
-        this._view = webviewView;
+export class CenterPanel {
+    public static centerPanel: CenterPanel | undefined;
+    private static readonly viewType = "CenterPanel";
+    private constructor(private readonly webviewPanel: WebviewPanel, private readonly _extensionUri: Uri, public extensionContext: ExtensionContext) {
+        this.updateView();
+    }
 
-        webviewView.webview.options = {
-            // Allow scripts in the webview
-            enableScripts: true,
+    public static getInstance(extensionUri: Uri, extensionContext: ExtensionContext) {
+        const column = window.activeTextEditor
+            ? window.activeTextEditor.viewColumn
+            : undefined;
 
-            localResourceRoots: [this._extensionUri],
-        };
+        if (CenterPanel.centerPanel) {
+            CenterPanel.centerPanel.webviewPanel.reveal(column);
+            CenterPanel.centerPanel.updateView();
+            return;
+        }
 
-        webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
-
-        webviewView.webview.onDidReceiveMessage((data) => {
-            switch (data.type) {
-                case "btn-first": {
-                    openBrowser();
-                    window.showInformationMessage(data.value);
-                    break;
-                }
-                case 'btn-second': {
-                    this.extensionContext.globalState.update('ipocCacheKey', data.value);
-                    window.showInformationMessage('Value saved in cache: ' + data.value);
-                    break;
-                }
-                case 'btn-third': {
-                    this.extensionContext.secrets.store('ipocCacheKey', data.value);
-                    window.showInformationMessage('Value saved in SecretStorage: ' + data.value);
-                    break;
-                }
+        const panel = window.createWebviewPanel(
+            CenterPanel.viewType,
+            "Extension HTML Feature",
+            column || ViewColumn.One,
+            {
+                enableScripts: true,
+                localResourceRoots: [
+                    Uri.joinPath(extensionUri, "media")
+                ],
             }
-        });
+        );
+
+        CenterPanel.centerPanel = new CenterPanel(panel, extensionUri, extensionContext);
+    }
+
+    private async updateView() {
+        const webview = this.webviewPanel.webview;
+        this.webviewPanel.webview.html = this._getHtmlForWebview(webview);
     }
 
     private _getHtmlForWebview(webview: Webview) {

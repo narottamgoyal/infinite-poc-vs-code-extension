@@ -40,7 +40,7 @@
       "infinite-poc-view": [
         {
           "type": "webview",
-          "id": "infinite-poc-panel",
+          "id": "infinite-poc-sidebar-panel",
           "name": "Infinite POC",
           "icon": "media/icons/beaker.svg"
         }
@@ -80,6 +80,11 @@
       {
         "command": "ipoc.show.secret.storage",
         "title": "Show value from Secret Storage",
+        "category": "ipoc"
+      },
+      {
+        "command": "ipoc.show.center.panel",
+        "title": "Show center panel",
         "category": "ipoc"
       }
     ],
