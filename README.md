@@ -11,12 +11,15 @@ This extension will demonstrate most of the vs code extension capabilies.
     - `Info message`
     - `Error message`
     - `Dialog modal message`
+    - `Input Box`
 - Configuration or Properties of extension
     - `Boolean/Integer`
     - `String`
     - `Array`
     - `Enum for dropdown selection`
-- Disable webview developer Tool
+- Webview developer Tool
+    - `Disable in Prod env`
+    - `Open/Show in dev env`
 - Snippets
 - Add extension
 - Create Sidebar webview panel
@@ -36,6 +39,7 @@ This extension will demonstrate most of the vs code extension capabilies.
     - `Set`
     - `Get keys`
     - `Get value`
+    - `Clear value`
 - Extension secret storage
     - `Set`
     - `Get value`
@@ -47,7 +51,7 @@ This extension will demonstrate most of the vs code extension capabilies.
     - `Publish`
     - `Subscribe`
 - Open URL in browser
-- Call/Open extension from browser
+- Call/Open extension from browser via `Uri Handler`
 - Create local package
     - `Add publisher name in package.json`
     - `Add repository url in package.json`
