@@ -19,6 +19,10 @@ This extension will demonstrate most of the vs code extension capabilities.
     - `Enum for dropdown selection`
 - Snippets
     - `Example for adding method snippets`
+- Code Completion
+    - `Load defination`
+    - `Show available methods or interfaces`
+    - `Show child elements on pressing of '.'`
 - Create Sidebar webview panel
     - Add HTML elements like `button` / `Input box`
     - Transfer data b/w webview & extension
