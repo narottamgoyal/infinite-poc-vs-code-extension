@@ -61,3 +61,6 @@ This extension will demonstrate most of the vs code extension capabilities.
     - `Add publisher name in package.json`
     - `Add repository url in package.json`
 - Publish
+    - https://code.visualstudio.com/api/get-started/your-first-extension
+    - https://code.visualstudio.com/api/working-with-extensions/publishing-extension
+    - https://marketplace.visualstudio.com/manage 
