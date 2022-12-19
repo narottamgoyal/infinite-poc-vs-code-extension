@@ -3,7 +3,7 @@
   "publisher": "ng",
   "displayName": "Infinite POC",
   "description": "Vs code extension poc",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "icon": "media/icons/logo.png",
   "engines": {
     "vscode": "^1.72.0"
@@ -19,7 +19,8 @@
     "type": "git",
     "url": "https://github.com/narottamgoyal/infinite-poc-vs-code-extension.git"
   },
-  "main": "./dist/extension.js",
+  "main": "./dist/extension-node",
+	"browser": "./dist/extension-web",
   "contributes": {
     "snippets": [
       {
@@ -182,7 +183,8 @@
     "vscode:prepublish": "npm run package",
     "compile": "webpack",
     "watch": "webpack --watch",
-    "package": "webpack --mode production --devtool hidden-source-map",
+    "watch-web": "webpack --watch",
+		"package": "webpack --mode production --devtool hidden-source-map",
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
